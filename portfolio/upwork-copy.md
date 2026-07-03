@@ -31,7 +31,7 @@ AI Agent Development · Anthropic Claude · TypeScript · Node.js · Automation 
 
 ## Two-liner for the top of proposals
 
-I build AI agents with safety rails a business owner can verify: my last build reconciles a bank feed and sends invoices autonomously, caught 8/8 planted discrepancies against a ground-truth answer key, and halts mid-run from a kill switch — every action audit-logged with the policy version that allowed it. 2-min demo: [VIDEO LINK] · code: [REPO LINK]
+I build AI agents with safety rails a business owner can verify: my last build reconciles a bank feed and sends invoices autonomously, caught 8/8 planted discrepancies against a ground-truth answer key, and halts mid-run from a kill switch — every action audit-logged with the policy version that allowed it. 2-min demo: [VIDEO LINK] · code: https://github.com/charliepmarsh-cyber/sam-agent
 
 ## Where to put it
 

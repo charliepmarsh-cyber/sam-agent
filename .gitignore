@@ -11,3 +11,7 @@ tenants/*/reports/
 tenants/*/proposals/
 tenants/*/KILL_SWITCH
 tenants/*/accounting-state.json
+
+# portfolio media (generated; lives locally, not in git)
+portfolio/vo/
+portfolio/thumbnail.png

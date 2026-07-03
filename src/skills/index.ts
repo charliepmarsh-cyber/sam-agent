@@ -1,26 +1,13 @@
 import type { Run } from '../agent/run.ts';
 import type { SkillName } from '../model/client.ts';
+import { reconcileSkill } from './reconcile.ts';
 
 export type Skill = (run: Run) => Promise<void>;
 
-/**
- * Phase 2: minimal read-only proofs of the loop. The real skills land in
- * later phases and replace these entries — the loop contract stays fixed.
- */
 const skills: Partial<Record<SkillName, Skill>> = {
-  reconcile: async (run) => {
-    const cursor = run.boot.repo.getState('recon.last_cursor');
-    const pulled = await run.act(
-      'PULL_TRANSACTIONS',
-      { since_cursor: cursor, client: run.boot.bank.origin, credentials: 'vault key tenant/' + run.boot.tenantId + '/bank-api' },
-      () => run.boot.bank.pullSince(cursor),
-    );
-    run.log('RECONCILE_STUB', null, {
-      pulled: pulled.transactions.length,
-      note: 'phase 2 read-only end-to-end — matching lands in phase 3',
-    });
-  },
+  reconcile: reconcileSkill,
 
+  // Minimal placeholder until phase 6 implements runbooks/daily-briefing.md.
   briefing: async (run) => {
     const balance = await run.act('READ_BALANCE', { client: run.boot.bank.origin }, () => run.boot.bank.balance());
     const lines = [

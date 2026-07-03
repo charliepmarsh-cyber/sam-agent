@@ -134,8 +134,10 @@ function summarizeState(boot: AgentBoot): string {
 
 function reflect(run: Run): RunReflection {
   const matches = run.boot.repo.matches();
+  const lastSummary = run.boot.repo.getState('recon.last_summary');
+  const autoMatchRate = lastSummary ? ((JSON.parse(lastSummary) as { auto_match_rate?: number }).auto_match_rate ?? 0) : 0;
   return {
-    auto_match_rate: 0, // set properly by the reconcile skill via run notes; recomputed in phase 3
+    auto_match_rate: autoMatchRate,
     matched_count: matches.length,
     matched_value: Math.round(matches.reduce((s, m) => s + m.amount, 0) * 100) / 100,
     discrepancies_opened: run.boot.repo.discrepancies().length,

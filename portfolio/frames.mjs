@@ -261,4 +261,36 @@ writeFileSync(path.join(OUT, 'f6-end.html'), page(`
     <div style="margin-top:14px; font-size:24px; color:${DIM}">Built on a synthetic tenant with a ground-truth answer key — every claim in this video is reproducible from the repo.</div>
   </div>`));
 
+// ---------- f7 problem/outcome stat card (honest: demo tenant, labelled) ----------
+const statRow = (stat, label) => `
+  <div style="display:flex; align-items:baseline; gap:22px">
+    <div style="font-size:56px; font-weight:900; color:${CORAL}; min-width:210px; text-align:right">${stat}</div>
+    <div style="font-size:29px; color:#C9D9F5; line-height:1.4">${label}</div>
+  </div>`;
+const outcomeRow = (stat, label) => `
+  <div style="display:flex; align-items:baseline; gap:22px">
+    <div style="font-size:56px; font-weight:900; color:${GREEN}; min-width:210px; text-align:right">${stat}</div>
+    <div style="font-size:29px; color:#C9D9F5; line-height:1.4">${label}</div>
+  </div>`;
+writeFileSync(path.join(OUT, 'f7-before-after.html'), page(`
+  ${chip}
+  <h1 style="margin-top:56px">The owner's week it gives back — <span class="hl">with receipts</span></h1>
+  <div style="display:flex; gap:36px; flex:1; z-index:1">
+    <div style="flex:1; background:${NAVY2}; border:1px solid #1C3E7A; border-radius:16px; padding:40px 44px; display:flex; flex-direction:column; gap:34px">
+      <div style="font-size:26px; letter-spacing:.12em; color:${DIM}; font-weight:700; text-transform:uppercase">Before — the tenant's profile</div>
+      ${statRow('6–8 hrs', 'per week on invoicing, payment chasing and bank reconciliation, by hand')}
+      ${statRow('4 days', 'average delay between job completion and the invoice going out')}
+      ${statRow('weeks', 'short payments, duplicates and unreferenced deposits sit unnoticed')}
+    </div>
+    <div style="flex:1; background:${NAVY2}; border:1px solid #1C3E7A; border-radius:16px; padding:40px 44px; display:flex; flex-direction:column; gap:34px">
+      <div style="font-size:26px; letter-spacing:.12em; color:${DIM}; font-weight:700; text-transform:uppercase">With Sam — measured in the demo</div>
+      ${outcomeRow('same day', 'signed job sheet → gated invoice, sent or queued for approval')}
+      ${outcomeRow('8/8', 'planted discrepancies caught next morning, correct classifications')}
+      ${outcomeRow('90 sec', 'daily owner briefing — worst news first, every number traceable')}
+    </div>
+  </div>
+  <div style="z-index:1; margin-top:26px; text-align:center; color:${DIM}; font-size:23px">
+    Demo tenant: Ashdown Electrical Services Ltd (fictional, seeded data) — the “before” figures are the tenant’s profile; the “after” results are reproducible from the repo’s eval.
+  </div>${foot}`));
+
 console.log('frames written to', OUT);

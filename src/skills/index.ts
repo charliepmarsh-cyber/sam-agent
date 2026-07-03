@@ -1,11 +1,14 @@
 import type { Run } from '../agent/run.ts';
 import type { SkillName } from '../model/client.ts';
 import { reconcileSkill } from './reconcile.ts';
+import { invoiceSweepSkill, processApprovalsSkill } from './invoicing.ts';
 
 export type Skill = (run: Run) => Promise<void>;
 
 const skills: Partial<Record<SkillName, Skill>> = {
   reconcile: reconcileSkill,
+  invoice_sweep: invoiceSweepSkill,
+  process_approvals: processApprovalsSkill,
 
   // Minimal placeholder until phase 6 implements runbooks/daily-briefing.md.
   briefing: async (run) => {

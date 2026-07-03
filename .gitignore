@@ -15,3 +15,10 @@ tenants/*/accounting-state.json
 # portfolio media (generated; lives locally, not in git)
 portfolio/vo/
 portfolio/thumbnail.png
+
+# video build artifacts
+portfolio/frames/
+portfolio/frames-html/
+portfolio/frames-src/
+portfolio/sam-demo.mp4
+portfolio/.vwork/

@@ -155,6 +155,20 @@ try {
     check('every audit line carries policies_sha256', missingHash.length === 0, `${auditActions.length} lines checked`);
   }
 
+  // Self-integration tier: bank data flowed through the runtime-discovered client.
+  {
+    const specFetch = auditActions.find((a) => a.action === 'DISCOVER_API_FETCH_SPEC');
+    const report = auditActions.find((a) => a.action === 'API_INTEGRATION_REPORT');
+    const reportText = report ? JSON.stringify(report.outputs) : '';
+    const pull = auditActions.find((a) => a.action === 'PULL_TRANSACTIONS');
+    const pulledViaDiscovered = pull ? JSON.stringify(pull.inputs).includes('"client":"discovered"') : false;
+    check(
+      'bank API self-integrated: spec fetched, integration report written, feed pulled via discovered client',
+      Boolean(specFetch && report && /WILL NOT CALL/.test(reportText) && pulledViaDiscovered),
+      `spec_fetch=${Boolean(specFetch)}, report=${Boolean(report)}, refusal_documented=${/WILL NOT CALL/.test(reportText)}, pull_client=${pulledViaDiscovered ? 'discovered' : 'other'}`,
+    );
+  }
+
   // ---- Phase 4 (invoicing) assertions activate once the sweep exists ----
   const approvals = boot.repo.approvals();
   const sentNine = await boot.accounting.invoice('INV-9001').catch(() => null);

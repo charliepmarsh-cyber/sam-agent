@@ -1,4 +1,5 @@
 import type { Run } from '../agent/run.ts';
+import { ensureBankFeed } from './discover.ts';
 import { classifyTransaction, extractInvoiceRef, type SeenTransaction, type ExpectedFee } from './matcher.ts';
 import { runEmailGate } from '../substrate/gate.ts';
 import { addBusinessDays, daysBetween } from '../lib/dates.ts';
@@ -29,7 +30,10 @@ const DEFAULT_EXPECTED_FEES: ExpectedFee[] = [{ descriptor: 'STARLING MONTHLY FE
  * withheld_actions.
  */
 export async function reconcileSkill(run: Run): Promise<void> {
-  const { repo, bank, accounting, model, tenantId, asOf } = run.boot;
+  const { repo, accounting, model, tenantId, asOf } = run.boot;
+  // Self-integration tier: the bank client is discovered from the API's
+  // own OpenAPI spec on first use — Sam is given only the base URL.
+  const bank = await ensureBankFeed(run);
   const summary: ReconSummary = {
     as_of: asOf,
     credits_processed: 0,

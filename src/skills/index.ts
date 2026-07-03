@@ -2,6 +2,7 @@ import type { Run } from '../agent/run.ts';
 import type { SkillName } from '../model/client.ts';
 import { reconcileSkill } from './reconcile.ts';
 import { invoiceSweepSkill, processApprovalsSkill } from './invoicing.ts';
+import { ensureBankFeed } from './discover.ts';
 
 export type Skill = (run: Run) => Promise<void>;
 
@@ -12,7 +13,8 @@ const skills: Partial<Record<SkillName, Skill>> = {
 
   // Minimal placeholder until phase 6 implements runbooks/daily-briefing.md.
   briefing: async (run) => {
-    const balance = await run.act('READ_BALANCE', { client: run.boot.bank.origin }, () => run.boot.bank.balance());
+    const bank = await ensureBankFeed(run);
+    const balance = await run.act('READ_BALANCE', { client: bank.origin }, () => bank.balance());
     const lines = [
       `# Daily briefing — ${run.boot.asOf} (minimal, phase 2)`,
       `Cash position: £${balance.balance.toFixed(2)} as of ${balance.as_of ?? 'n/a'}.`,

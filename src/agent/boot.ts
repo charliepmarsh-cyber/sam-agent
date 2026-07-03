@@ -5,7 +5,7 @@ import { openDatabase } from '../db/database.ts';
 import { TenantRepository } from '../db/repository.ts';
 import { ModelClient } from '../model/client.ts';
 import { AccountingClient } from '../clients/accounting.ts';
-import { createDirectBankClient, type BankFeed } from '../clients/bank.ts';
+import type { BankFeed } from '../clients/bank.ts';
 import { startMockServers, type MockServers } from '../mock-api/server.ts';
 import { todayISO } from '../lib/dates.ts';
 
@@ -33,7 +33,8 @@ export interface AgentBoot {
   repo: TenantRepository;
   model: ModelClient;
   accounting: AccountingClient;
-  bank: BankFeed;
+  /** Populated at runtime by the discover_api skill — Sam only gets bankUrl. */
+  bank: BankFeed | null;
   bankUrl: string;
   mocks: MockServers | null;
   haltAfter: number | null;
@@ -68,7 +69,6 @@ export async function bootAgent(opts: BootOptions): Promise<AgentBoot> {
 
   // Credentials resolved at call time from the vault — clients hold the getter, not the value.
   const accounting = new AccountingClient(accountingUrl, () => vault.get(`tenant/${opts.tenantId}/accounting-api`));
-  const bank = createDirectBankClient(bankUrl, () => vault.get(`tenant/${opts.tenantId}/bank-api`));
 
   return {
     tenantId: opts.tenantId,
@@ -79,7 +79,7 @@ export async function bootAgent(opts: BootOptions): Promise<AgentBoot> {
     repo,
     model,
     accounting,
-    bank,
+    bank: null,
     bankUrl,
     mocks,
     haltAfter: opts.haltAfter ?? null,

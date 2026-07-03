@@ -10,3 +10,4 @@ tenants/*/briefings/
 tenants/*/reports/
 tenants/*/proposals/
 tenants/*/KILL_SWITCH
+tenants/*/accounting-state.json

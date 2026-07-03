@@ -33,7 +33,7 @@ if (!existsSync(tenantRoot)) {
 }
 
 if (values.reset) {
-  for (const artifact of ['sam.db', 'sam.db-journal', 'sam.db-wal', 'sam.db-shm', 'audit.jsonl', 'KILL_SWITCH', 'briefings', 'reports', 'proposals']) {
+  for (const artifact of ['sam.db', 'sam.db-journal', 'sam.db-wal', 'sam.db-shm', 'audit.jsonl', 'KILL_SWITCH', 'accounting-state.json', 'briefings', 'reports', 'proposals']) {
     rmSync(path.join(tenantRoot, artifact), { recursive: true, force: true });
   }
   console.log(`[sam] reset: cleared runtime state for tenant ${tenantId}`);
@@ -75,7 +75,7 @@ if (values.approve) {
   }
   if (!values.now) {
     await boot.close();
-    process.exit(0);
+    process.exitCode = 0;
   }
 }
 
@@ -87,15 +87,19 @@ if (values.now) {
   }
   const result = await runCycle(boot, task);
   await boot.close();
-  process.exit(result.status === 'DONE' ? 0 : result.status === 'HALTED' || result.status === 'SKIPPED_HALTED' ? 3 : 1);
+  // exitCode (not process.exit) lets the event loop drain — avoids a
+  // libuv teardown race on Windows while servers/DB finish closing.
+  process.exitCode = result.status === 'DONE' ? 0 : result.status === 'HALTED' || result.status === 'SKIPPED_HALTED' ? 3 : 1;
+} else if (!values.approve) {
+  // No --now: stay resident. One command boots Sam — mocks in-process,
+  // heartbeat armed, kill switch respected. Sam wakes itself; nothing
+  // here waits for a user message.
+  const heartbeat = startHeartbeat(boot);
+  console.log('[sam] resident. Ctrl+C to stop; touch tenants/<id>/KILL_SWITCH or POST /halt to halt Sam.');
+  process.on('SIGINT', () => {
+    heartbeat.stop();
+    void boot.close().then(() => {
+      process.exitCode = 0;
+    });
+  });
 }
-
-// No --now: stay resident. One command boots Sam — mocks in-process,
-// heartbeat armed, kill switch respected. Sam wakes itself; nothing here
-// waits for a user message.
-const heartbeat = startHeartbeat(boot);
-console.log('[sam] resident. Ctrl+C to stop; touch tenants/<id>/KILL_SWITCH or POST /halt to halt Sam.');
-process.on('SIGINT', () => {
-  heartbeat.stop();
-  void boot.close().then(() => process.exit(0));
-});

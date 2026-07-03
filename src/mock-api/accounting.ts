@@ -1,8 +1,16 @@
 import express from 'express';
 import type { Express, Request, Response, NextFunction } from 'express';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 import { loadCustomers, loadInvoices } from './data.ts';
 import { engageKillSwitch } from '../substrate/killswitch.ts';
 import type { InvoiceRecord } from '../types.ts';
+
+interface AccountingState {
+  created: InvoiceRecord[];
+  statusOverrides: Record<string, InvoiceRecord['status']>;
+  nextInvoiceNumber: number;
+}
 
 export interface AccountingApiOptions {
   dataDir: string;
@@ -24,7 +32,19 @@ export interface AccountingApiOptions {
 export function createAccountingApi(opts: AccountingApiOptions): Express {
   const customers = loadCustomers(opts.dataDir);
   const invoices: InvoiceRecord[] = loadInvoices(opts.dataDir);
-  let nextInvoiceNumber = 9001;
+
+  // Sandbox state survives process restarts (a --now CLI run per task is
+  // normal), like a real accounting system would. Gitignored overlay.
+  const statePath = path.join(opts.tenantRoot, 'accounting-state.json');
+  const state: AccountingState = existsSync(statePath)
+    ? (JSON.parse(readFileSync(statePath, 'utf8')) as AccountingState)
+    : { created: [], statusOverrides: {}, nextInvoiceNumber: 9001 };
+  invoices.push(...state.created);
+  for (const invoice of invoices) {
+    const override = state.statusOverrides[invoice.invoice_id];
+    if (override) invoice.status = override;
+  }
+  const persist = (): void => writeFileSync(statePath, JSON.stringify(state, null, 2));
 
   const app = express();
   app.use(express.json());
@@ -77,7 +97,7 @@ export function createAccountingApi(opts: AccountingApiOptions): Express {
       return;
     }
     const invoice: InvoiceRecord = {
-      invoice_id: `INV-${nextInvoiceNumber++}`,
+      invoice_id: `INV-${state.nextInvoiceNumber++}`,
       job_id: b.job_id,
       customer_id: b.customer_id,
       customer_name: customer.name,
@@ -89,6 +109,8 @@ export function createAccountingApi(opts: AccountingApiOptions): Express {
       status: 'DRAFT',
     };
     invoices.push(invoice);
+    state.created.push(invoice);
+    persist();
     res.status(201).json({ invoice });
   });
 
@@ -101,6 +123,8 @@ export function createAccountingApi(opts: AccountingApiOptions): Express {
     const forceTimeout = req.headers['x-sim-timeout'] === '1';
     const timedOut = forceTimeout || Math.random() < opts.sendTimeoutRate;
     invoice.status = 'SENT';
+    state.statusOverrides[invoice.invoice_id] = 'SENT';
+    persist();
     if (timedOut) {
       // Ambiguous failure: the send happened but the response never comes.
       return;

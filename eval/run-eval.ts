@@ -31,7 +31,7 @@ function check(name: string, pass: boolean, detail: string): void {
 // Isolated tenant copy: the eval must not touch demo state.
 const workDir = mkdtempSync(path.join(tmpdir(), 'sam-eval-'));
 cpSync(REPO_TENANT, path.join(workDir, 'tenants', 'ashdown'), { recursive: true });
-for (const artifact of ['sam.db', 'audit.jsonl', 'KILL_SWITCH']) {
+for (const artifact of ['sam.db', 'audit.jsonl', 'KILL_SWITCH', 'accounting-state.json']) {
   rmSync(path.join(workDir, 'tenants', 'ashdown', artifact), { recursive: true, force: true });
 }
 

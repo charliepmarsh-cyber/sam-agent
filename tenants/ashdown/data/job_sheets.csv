@@ -1,0 +1,44 @@
+job_id,customer_id,description,net_amount,signed,completion_date
+JOB-1001,CUS-207,EV charger installation,1089.3,yes,2026-04-21
+JOB-1002,CUS-110,Quarterly maintenance visit,852.93,yes,2026-04-21
+JOB-1003,CUS-205,EV charger installation,946.0,yes,2026-04-22
+JOB-1004,CUS-102,Quarterly maintenance visit,897.23,yes,2026-04-29
+JOB-1005,CUS-202,Consumer unit replacement,723.74,yes,2026-05-01
+JOB-1006,CUS-109,Lighting replacement (LED),2431.02,yes,2026-05-04
+JOB-1007,CUS-101,EICR testing,854.18,yes,2026-05-06
+JOB-1008,CUS-205,EV charger installation,914.08,yes,2026-05-08
+JOB-1009,CUS-207,Consumer unit replacement,727.62,yes,2026-05-08
+JOB-1010,CUS-208,Consumer unit replacement,763.65,yes,2026-05-12
+JOB-1011,CUS-202,Consumer unit replacement,673.56,yes,2026-05-13
+JOB-1012,CUS-208,Socket & switch additions,266.37,yes,2026-05-14
+JOB-1013,CUS-105,Quarterly maintenance visit,839.38,yes,2026-05-15
+JOB-1014,CUS-200,Consumer unit replacement,662.15,yes,2026-05-19
+JOB-1015,CUS-110,New circuit installation,765.61,yes,2026-05-21
+JOB-1016,CUS-100,Distribution board upgrade,2656.69,yes,2026-05-22
+JOB-1017,CUS-204,Socket & switch additions,276.44,yes,2026-05-22
+JOB-1018,CUS-111,EICR testing,1665.34,yes,2026-05-27
+JOB-1019,CUS-108,Quarterly maintenance visit,805.55,yes,2026-05-28
+JOB-1020,CUS-201,EV charger installation,1043.13,yes,2026-05-29
+JOB-1021,CUS-111,Distribution board upgrade,1735.75,yes,2026-06-03
+JOB-1022,CUS-201,Consumer unit replacement,660.36,yes,2026-06-03
+JOB-1023,CUS-206,Fault find & repair,166.95,yes,2026-06-08
+JOB-1024,CUS-204,Socket & switch additions,268.85,yes,2026-06-08
+JOB-1025,CUS-106,Emergency call-out + repair,545.41,yes,2026-06-09
+JOB-1026,CUS-103,Emergency call-out + repair,611.16,yes,2026-06-09
+JOB-1027,CUS-205,Fault find & repair,188.49,yes,2026-06-10
+JOB-1028,CUS-111,EICR testing,1018.92,yes,2026-06-10
+JOB-1029,CUS-202,Garden/outdoor power,466.79,yes,2026-06-11
+JOB-1030,CUS-111,EICR testing,795.09,yes,2026-06-12
+JOB-1031,CUS-201,Garden/outdoor power,410.26,yes,2026-06-16
+JOB-1032,CUS-111,Quarterly maintenance visit,790.26,yes,2026-06-19
+JOB-1033,CUS-203,EV charger installation,1027.09,yes,2026-06-22
+JOB-1034,CUS-113,New circuit installation,1036.82,yes,2026-06-23
+JOB-1035,CUS-206,Consumer unit replacement,555.33,yes,2026-06-24
+JOB-1036,CUS-202,Full rewire (partial),2232.9,yes,2026-06-25
+JOB-1037,CUS-208,EV charger installation,920.61,yes,2026-06-25
+JOB-1038,CUS-208,Consumer unit replacement,705.7,yes,2026-06-26
+JOB-1039,CUS-201,Full rewire (partial),2638.1,yes,2026-06-29
+JOB-1040,CUS-103,New circuit installation,1705.57,yes,2026-06-30
+JOB-1041,CUS-206,Full rewire (partial),2323.46,yes,2026-06-30
+JOB-9001,CUS-207,EV charger installation,1180.0,yes,2026-07-01
+JOB-9002,CUS-101,Distribution board upgrade,2650.0,yes,2026-07-01

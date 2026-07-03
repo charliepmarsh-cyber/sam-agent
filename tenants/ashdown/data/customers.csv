@@ -1,0 +1,26 @@
+customer_id,name,type,terms_days,email
+CUS-100,BridgeGate Facilities Ltd,commercial,30,accounts@bridgegate.example.com
+CUS-101,MarlWood Facilities Ltd,commercial,30,accounts@marlwood.example.com
+CUS-102,MarlWell Retail Ltd,commercial,30,accounts@marlwell.example.com
+CUS-103,MarlBrook Gym Ltd,commercial,30,accounts@marlbrook.example.com
+CUS-104,BridgeWorth Gym Ltd,commercial,30,accounts@bridgeworth.example.com
+CUS-105,CroftGate Estates,commercial,30,accounts@croftgate.example.com
+CUS-106,OakWood Dental Practice,commercial,30,accounts@oakwood.example.com
+CUS-107,AshBorough Gym Ltd,commercial,30,accounts@ashborough.example.com
+CUS-108,HazelCombe Logistics,commercial,30,accounts@hazelcombe.example.com
+CUS-109,AshWorth Property Group,commercial,30,accounts@ashworth.example.com
+CUS-110,HazelWorth Gym Ltd,commercial,30,accounts@hazelworth.example.com
+CUS-111,OakWell Bakeries,commercial,30,accounts@oakwell.example.com
+CUS-112,StoneWorth Bakeries,commercial,30,accounts@stoneworth.example.com
+CUS-113,AshGate Estates,commercial,30,accounts@ashgate.example.com
+CUS-114,RidgeWell Gym Ltd,commercial,30,accounts@ridgewell.example.com
+CUS-200,Tariq Reeve,domestic,0,tariq.reeve@example.com
+CUS-201,Tariq Reeve,domestic,0,tariq.reeve@example.com
+CUS-202,James Whitfield,domestic,0,james.whitfield@example.com
+CUS-203,Colin Reeve,domestic,0,colin.reeve@example.com
+CUS-204,Priya Doyle,domestic,0,priya.doyle@example.com
+CUS-205,Priya Hobbs,domestic,0,priya.hobbs@example.com
+CUS-206,Priya Doyle,domestic,0,priya.doyle@example.com
+CUS-207,Owen Doyle,domestic,0,owen.doyle@example.com
+CUS-208,Owen Okoye,domestic,0,owen.okoye@example.com
+CUS-209,Marcus Okoye,domestic,0,marcus.okoye@example.com

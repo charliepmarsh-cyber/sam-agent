@@ -1,0 +1,4 @@
+allowBuilds:
+  better-sqlite3: true
+minimumReleaseAgeExclude:
+  - '@anthropic-ai/sdk@0.110.0'

@@ -1,0 +1,12 @@
+node_modules/
+.secrets.json
+.env
+
+# tenant runtime artifacts (reconstructable; audit.jsonl is the run record, not source)
+tenants/*/sam.db
+tenants/*/sam.db-journal
+tenants/*/audit.jsonl
+tenants/*/briefings/
+tenants/*/reports/
+tenants/*/proposals/
+tenants/*/KILL_SWITCH
